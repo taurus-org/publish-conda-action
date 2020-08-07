@@ -11,21 +11,21 @@ go_to_build_dir() {
 
 check_if_setup_file_exists() {
     if [ ! -f setup.py ]; then
-        echo "setup.py must exist in the directory that is being packaged and published."
+        echo "setup.py must exist in the root of the package to be published."
         exit 1
     fi
 }
 
 check_if_meta_yaml_file_exists() {
     if [ ! -f meta.yaml ]; then
-        echo "meta.yaml must exist in the directory that is being packaged and published."
+        echo "meta.yaml must exist in the directory to be built."
         exit 1
     fi
 }
 
 build_package(){
     # Build for Linux
-    conda build -c conda-forge -c pytorch -c fcakyon -c districtdatalabs --output-folder . .
+    conda build -c conda-forge -c cpascual -c tango-controls --output-folder . .
 
     # Convert to other platforms: OSX, WIN
     if [[ $INPUT_PLATFORMS == *"osx"* ]]; then
@@ -38,6 +38,9 @@ build_package(){
 
 upload_package(){
     export ANACONDA_API_TOKEN=$INPUT_ANACONDATOKEN
+    if [[ $INPUT_PLATFORMS == *"noarch"* ]]; then
+    anaconda upload --label main noarch/*.tar.bz2
+    fi
     if [[ $INPUT_PLATFORMS == *"osx"* ]]; then
     anaconda upload --label main osx-64/*.tar.bz2
     fi

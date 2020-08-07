@@ -1,10 +1,10 @@
 name: 'Publish Conda'
-description: 'Build and Publish Conda package to Anaconda'
-author: 'Fatih C Akyon'
+description: 'Build conda pkg and Publish (forked from Fatih C Akyon)'
+author: 'Carlos Pascual'
 branding:
-  icon: 'package'  
-  color: 'purple'
-inputs: 
+  icon: 'package'
+  color: 'green'
+inputs:
   subdir:
     description: 'Sub-directory with conda recipe'
     default: '.'
